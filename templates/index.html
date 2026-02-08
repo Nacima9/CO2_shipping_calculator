@@ -20,23 +20,23 @@
 {% endif %}
 
 {% if error %}
-    <p style="color:red;">{{ error }}</p>
+<p style="color:red;">{{ error }}</p>
 {% endif %}
 
 {% if data %}
-    <h2>Datei erfolgreich eingelesen</h2>
-    <p>Zeilen: {{ data.rows }}</p>
-    <p>Spalten: {{ data.columns }}</p>
-    <p>Spaltennamen:</p>
-    <ul>
-        {% for col in data.column_names %}
-            <li>{{ col }}</li>
-        {% endfor %}
-    </ul>
+<h2>Datei erfolgreich eingelesen</h2>
+<p>Zeilen: {{ data.rows }}</p>
+<p>Spalten: {{ data.columns }}</p>
+<p>Spaltennamen:</p>
+<ul>
+    {% for col in data.column_names %}
+    <li>{{ col }}</li>
+    {% endfor %}
+</ul>
 {% endif %}
+
 {% if rows %}
 <h2>CO₂-Emissionen pro Transport</h2>
-
 <table border="1" cellpadding="5">
     <tr>
         <th>Jahr</th>
@@ -57,11 +57,49 @@
     </tr>
     {% endfor %}
 </table>
-
-<h3>Gesamter CO₂-Ausstoß: {{ total_co2 }} kg</h3>
 {% endif %}
 
+{% if yearly_totals %}
+<h2>CO₂-Ausstoß pro Jahr</h2>
 
+<table border="1" cellpadding="5">
+    <thead>
+    <tr>
+        <th>Jahr</th>
+        <th>Gesamt CO₂ (kg)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for year, value in yearly_totals.items() %}
+    <tr>
+        <td>{{ year }}</td>
+        <td>{{ value }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if yearly_averages %}
+<h2>Durchschnittlicher CO₂-Ausstoß pro Transport (pro Jahr)</h2>
+
+<table border="1" cellpadding="5">
+    <thead>
+    <tr>
+        <th>Jahr</th>
+        <th>Ø CO₂ pro Transport (kg)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for year, value in yearly_averages.items() %}
+    <tr>
+        <td>{{ year }}</td>
+        <td>{{ value }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 </body>
 
 </html>

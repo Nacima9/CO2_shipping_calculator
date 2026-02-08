@@ -3,6 +3,7 @@ from flask import Flask, render_template, request
 import pandas as pd
 from services.co2_calculation import calculate_co2
 from services.data_loader import load_data
+from services.statistics_calculation import calculate_total_co2_per_year, calculate_average_co2_per_year
 
 
 
@@ -28,7 +29,8 @@ def uploadData():
     error = None
     df = None
     rows = []
-    total_co2 = 0.0
+    yearly_totals= {}
+    yearly_averages = {}
 
     try:
         if DEV_MODE:
@@ -58,8 +60,8 @@ def uploadData():
                 row_dict["co2_kg"] = round(co2, 2)
 
                 rows.append(row_dict)
-                total_co2 += co2
-
+            yearly_totals = calculate_total_co2_per_year(rows)
+            yearly_averages = calculate_average_co2_per_year(rows)
 
     except Exception as e:
         error = f"Fehler beim Einlesen der Datei: {e}"
@@ -70,7 +72,8 @@ def uploadData():
         data=data_preview,
         error=error,
         rows=rows,
-        total_co2=round(total_co2, 2),
+        yearly_totals=yearly_totals,
+        yearly_averages=yearly_averages
     )
 
 
