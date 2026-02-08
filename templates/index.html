@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CO₂ Shipping Analyse</title>
+</head>
+<body>
+
+<h1>CO₂-Analyse Containerschifffahrt</h1>
+
+{% if not dev_mode %}
+<form method="post" enctype="multipart/form-data">
+    <label>Datei hochladen (CSV oder Excel):</label><br>
+    <input type="file" name="file">
+    <br><br>
+    <button type="submit">Hochladen & Analysieren</button>
+</form>
+{% else %}
+<p><em>Entwicklungsmodus aktiv – Testdatei wird automatisch geladen.</em></p>
+{% endif %}
+
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% endif %}
+
+{% if data %}
+    <h2>Datei erfolgreich eingelesen</h2>
+    <p>Zeilen: {{ data.rows }}</p>
+    <p>Spalten: {{ data.columns }}</p>
+    <p>Spaltennamen:</p>
+    <ul>
+        {% for col in data.column_names %}
+            <li>{{ col }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% if rows %}
+<h2>CO₂-Emissionen pro Transport</h2>
+
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Jahr</th>
+        <th>Monat</th>
+        <th>Distanz (km)</th>
+        <th>Container</th>
+        <th>Treibstoff</th>
+        <th>CO₂ (kg)</th>
+    </tr>
+    {% for row in rows %}
+    <tr>
+        <td>{{ row.year }}</td>
+        <td>{{ row.month }}</td>
+        <td>{{ row.distance_km }}</td>
+        <td>{{ row.containers }}</td>
+        <td>{{ row.fuel_type }}</td>
+        <td>{{ row.co2_kg | round(2) }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Gesamter CO₂-Ausstoß: {{ total_co2 }} kg</h3>
+{% endif %}
+
+
+</body>
+
+</html>

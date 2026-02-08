@@ -1,0 +1,7 @@
+year,month,distance_km,containers,fuel_type,ship_type,eco_option
+2022,1,12000,800,HFO,Panamax,False
+2022,6,15000,950,LNG,Panamax,True
+2023,1,12000,820,HFO,Panamax,False
+2023,6,15000,980,LNG,Post-Panamax,True
+2024,1,12000,850,Biofuel,Post-Panamax,True
+2024,6,15000,1000,LNG,Post-Panamax,True
